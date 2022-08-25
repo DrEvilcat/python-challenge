@@ -13,6 +13,8 @@ min = 0
 maxMonth = ""
 minMonth = ""
 changesList = []
+last = 0
+changesSum = 0
 
 # Open File
 csv_path = os.path.join("Resources","budget_data.csv")
@@ -26,21 +28,26 @@ with open(csv_path, 'r') as csvfile:
         #Update totals
         total += 1
         val = int(row[1])
-        changesList.append(val)
+        
         sum += val
 
+        if last != 0:
+            changesSum += val - last
+        
+
         #Update max/min values
-        if val> max:
-            max = val
+        if val - last > max:
+            max = val - last
             maxMonth = row[0]
-        if val < min:
-            min = val
+        if val - last < min:
+            min = val - last
             minMonth = row[0]
+        last = val
 print("Financial Analysis")
 print("------------------------------")
 print(f"Total Months: {total}")
 print(f"Total: ${sum}")
-print(f"Average Change: ${int(statistics.mean(changesList))}")
+print(f"Average Change: ${round(changesSum/(total-1),2)}")
 print(f"Greatest Increase In Profits : {maxMonth} (${max})")
 print(f"Greatest Decrease in Profits: {minMonth} (${min})")
 
@@ -50,6 +57,6 @@ f.write("Financial Analysis\n")
 f.write("------------------------------\n")
 f.write(f"Total Months: {total}\n")
 f.write(f"Total: ${sum}\n")
-f.write(f"Average Change: ${int(statistics.mean(changesList))}\n")
+f.write(f"Average Change: ${round(changesSum/(total-1),2)}\n")
 f.write(f"Greatest Increase In Profits : {maxMonth} (${max})\n")
 f.write(f"Greatest Decrease in Profits: {minMonth} (${min})\n")

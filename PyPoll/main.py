@@ -74,5 +74,7 @@ for name in namesList:
     f.write(f"{name}: {round(resultsDict[name]/total*100,3)}% ({resultsDict[name]})\n")
 print("--------------------------------")
 print(f"Winner: {firstName}")
+print("--------------------------------")
 f.write("--------------------------------\n")
 f.write(f"Winner: {firstName}\n")
+f.write("--------------------------------")
